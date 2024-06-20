@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://cor1hb7llxoih"]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_hby8l"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_6f7tb"]
+size = Vector2(32, 32)
+orientation = 1
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_vqxxc"]
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_hby8l")
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://scenes/character.tscn")
+spawn_path = NodePath("../Players")
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="Mesh" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("QuadMesh_6f7tb")
+
+[node name="Collision" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("WorldBoundaryShape3D_vqxxc")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 16, 0)
+
+[node name="Players" type="Node" parent="."]

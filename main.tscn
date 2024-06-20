@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6nbn0qi13g3j"]
+
+[ext_resource type="Script" path="res://scripts/multiplayer.gd" id="1_e7kjw"]
+
+[node name="Multiplayer" type="Node"]
+script = ExtResource("1_e7kjw")
+
+[node name="Level" type="Node" parent="."]
+
+[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://levels/level1.tscn")
+spawn_path = NodePath("../Level")
+
+[node name="Gui" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Buttons" type="HBoxContainer" parent="Gui"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HostButton" type="Button" parent="Gui/Buttons"]
+layout_mode = 2
+text = "Host Server"
+
+[node name="ConnectLocal" type="Button" parent="Gui/Buttons"]
+layout_mode = 2
+text = "Connect Local"
+
+[node name="ConnectButton" type="Button" parent="Gui/Buttons"]
+layout_mode = 2
+text = "Connect to Server"

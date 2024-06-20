@@ -1,0 +1,58 @@
+[gd_scene load_steps=8 format=3 uid="uid://d0bqme33so5s3"]
+
+[ext_resource type="Script" path="res://scripts/character.gd" id="1_2cacw"]
+[ext_resource type="Texture2D" uid="uid://cus7e6vutyr1t" path="res://images/face1.png" id="2_80gk8"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_d1tw5"]
+properties/0/path = NodePath(".:player_id")
+properties/0/spawn = true
+properties/0/replication_mode = 0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_uxr5l"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Head:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_owgnu"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_x6cti"]
+radius = 0.25
+
+[sub_resource type="QuadMesh" id="QuadMesh_ywjdk"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_2cacw")
+
+[node name="ServerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_d1tw5")
+
+[node name="ClientSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_uxr5l")
+
+[node name="Collision" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_owgnu")
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("CapsuleMesh_x6cti")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Face" type="MeshInstance3D" parent="Head"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -0.5)
+mesh = SubResource("QuadMesh_ywjdk")
+skeleton = NodePath("../..")
+
+[node name="Decal" type="Decal" parent="Head/Face"]
+transform = Transform3D(-1, -8.74226e-08, 1.63251e-10, 0, -0.00186746, -0.999998, 8.74228e-08, -0.999998, 0.00186746, 0, 0, 0)
+size = Vector3(1, 0.1, 1)
+texture_albedo = ExtResource("2_80gk8")
+
+[node name="Camera" type="Camera3D" parent="Head"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
